@@ -7,27 +7,34 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Cache;
+
 
 class PostController extends Controller
 {
 
     public function index(Request $request)
     {
-        $query = Post::query()->with('author');
+        $cacheKey = 'posts_' . md5(json_encode($request->all()));
+        $cacheTTL = 600; // 10 دقائق
 
-        if ($request->category) {
-            $query->where('category', $request->category);
-        }
+        $posts = Cache::remember($cacheKey, $cacheTTL, function () use ($request) {
+            $query = Post::query()->with('author');
 
-        if ($request->author_id) {
-            $query->where('author_id', $request->author_id);
-        }
+            if ($request->category) {
+                $query->where('category', $request->category);
+            }
 
-        if ($request->from && $request->to) {
-            $query->whereBetween('created_at', [$request->from, $request->to]);
-        }
+            if ($request->author_id) {
+                $query->where('author_id', $request->author_id);
+            }
 
-        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
+            if ($request->from && $request->to) {
+                $query->whereBetween('created_at', [$request->from, $request->to]);
+            }
+
+            return $query->orderBy('created_at', 'desc')->paginate(10);
+        });
 
         return response()->json($posts);
     }
@@ -54,6 +61,9 @@ class PostController extends Controller
             'category' => $request->category,
             'author_id' => $user->id,
         ]);
+
+        // مسح جميع cache الخاصة بالـ posts
+        Cache::flush();
 
         return response()->json($post, 201);
     }
@@ -94,6 +104,9 @@ class PostController extends Controller
 
 
         $post->update($request->all());
+        // مسح جميع cache الخاصة بالـ posts
+        Cache::flush();
+
 
         return response()->json($post);
     }
@@ -113,6 +126,9 @@ class PostController extends Controller
         }
 
         $post->delete();
+        // مسح جميع cache الخاصة بالـ posts
+        Cache::flush();
+
 
         return response()->json(['message' => 'Post deleted successfully']);
     }
