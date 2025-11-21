@@ -48,7 +48,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category' => 'required|in:Technology,Lifestyle,Education',
+            'category' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -95,7 +95,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'sometimes|string|max:255',
             'content' => 'sometimes|string',
-            'category' => 'sometimes|in:Technology,Lifestyle,Education',
+            'category' => 'sometimes|string',
         ]);
 
         if ($validator->fails()) {
