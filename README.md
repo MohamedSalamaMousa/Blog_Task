@@ -137,9 +137,9 @@ http://127.0.0.1:8000/api
 ## Live Deployment
 
 تم نشر المشروع بنجاح على استضافة **Hostinger**، ويمكن الوصول إلى النسخة الحية من الـ API من خلال الرابط التالي:
-
-🔗 **Live API URL:**  
-https://blog.qargoquote.com/api
+ممكن تعمل اختبار علي نسخة دي
+🔗 **Live URl add api to test:**  
+https://blog.qargoquote.com/
 
 ## Running Tests
 
