@@ -6,39 +6,39 @@ A simple Laravel API for managing **users, posts, and comments** with **JWT auth
 
 ## Table of Contents
 
-- [Features](#features)  
-- [Requirements](#requirements)  
-- [Installation](#installation)  
-- [Environment Setup](#environment-setup)  
-- [Database Setup](#database-setup)  
-- [Running the Project](#running-the-project)  
-- [Running Tests](#running-tests)  
-- [API Endpoints](#api-endpoints)  
-- [License](#license)  
+-   [Features](#features)
+-   [Requirements](#requirements)
+-   [Installation](#installation)
+-   [Environment Setup](#environment-setup)
+-   [Database Setup](#database-setup)
+-   [Running the Project](#running-the-project)
+-   [Running Tests](#running-tests)
+-   [API Endpoints](#api-endpoints)
+-   [License](#license)
 
 ---
 
 ## Features
 
-- JWT Authentication (login, register, logout)
-- Role-based access (`admin` / `author`)
-- CRUD for Posts
-- CRUD for Comments
-- Post caching
-- Search and filter posts by title, category, author, and date
-- Paginated responses
-- API responses in JSON
+-   JWT Authentication (login, register, logout)
+-   Role-based access (`admin` / `author`)
+-   CRUD for Posts
+-   CRUD for Comments
+-   Post caching
+-   Search and filter posts by title, category, author, and date
+-   Paginated responses
+-   API responses in JSON
 
 ---
 
 ## Requirements
 
-- PHP >= 8.2  
-- Composer  
-- MySQL / MariaDB  
-- Node.js & NPM (optional if you need Laravel Mix)  
-- Laravel >= 11  
-- [Tymon JWT Auth package](https://jwt-auth.readthedocs.io/en/develop/)  
+-   PHP >= 8.2
+-   Composer
+-   MySQL / MariaDB
+-   Node.js & NPM (optional if you need Laravel Mix)
+-   Laravel >= 11
+-   [Tymon JWT Auth package](https://jwt-auth.readthedocs.io/en/develop/)
 
 ---
 
@@ -47,8 +47,9 @@ A simple Laravel API for managing **users, posts, and comments** with **JWT auth
 1. Clone the repository:
 
 ```bash
-git clone <https://github.com/MohamedSalamaMousa/Blog_Task.git>
-cd <Blog_Task>
+git clone https://github.com/MohamedSalamaMousa/Blog_Task.git
+cd Blog_Task
+
 ```
 
 2. Install dependencies:
@@ -102,7 +103,7 @@ CACHE_DRIVER=file
 
 ## Database Setup
 
-1. Create a database in MySQL (e.g., `laravel_jwt_blog`).  
+1. Create a database in MySQL (e.g., `laravel_jwt_blog`).
 2. Run migrations:
 
 ```bash
@@ -149,40 +150,40 @@ This will execute all tests in `tests/Feature` and `tests/Unit`.
 
 ### Authentication
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/register` | Register a new user |
-| POST | `/api/login` | Login and receive JWT token |
-| GET | `/api/user` | Get authenticated user info |
-| POST | `/api/logout` | Logout and invalidate JWT |
+| Method | Endpoint        | Description                 |
+| ------ | --------------- | --------------------------- |
+| POST   | `/api/register` | Register a new user         |
+| POST   | `/api/login`    | Login and receive JWT token |
+| GET    | `/api/user`     | Get authenticated user info |
+| POST   | `/api/logout`   | Logout and invalidate JWT   |
 
 ### Posts
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/posts` | Get paginated list of posts (cached) |
-| GET | `/api/posts/{id}` | Get single post with author & comments |
-| GET | `/api/search_filter` | Search/filter posts by title, category, author, or date |
-| POST | `/api/posts` | Create a new post (author/admin) |
-| PUT | `/api/posts/{id}` | Update post (only author owns post or admin) |
-| DELETE | `/api/posts/{id}` | Delete post (only author owns post or admin) |
+| Method | Endpoint             | Description                                             |
+| ------ | -------------------- | ------------------------------------------------------- |
+| GET    | `/api/posts`         | Get paginated list of posts (cached)                    |
+| GET    | `/api/posts/{id}`    | Get single post with author & comments                  |
+| GET    | `/api/search_filter` | Search/filter posts by title, category, author, or date |
+| POST   | `/api/posts`         | Create a new post (author/admin)                        |
+| PUT    | `/api/posts/{id}`    | Update post (only author owns post or admin)            |
+| DELETE | `/api/posts/{id}`    | Delete post (only author owns post or admin)            |
 
 ### Comments
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/posts/{id}/comments` | Add a comment to a post |
+| Method | Endpoint                   | Description             |
+| ------ | -------------------------- | ----------------------- |
+| POST   | `/api/posts/{id}/comments` | Add a comment to a post |
 
 ---
 
 ### Using the API
 
-1. **Register a user** via `/api/register`.  
+1. **Register a user** via `/api/register`.
 2. **Login** via `/api/login` to get a token:
 
 ```json
 {
-  "token": "eyJ0eXAiOiJKV1QiLCJh..."
+    "token": "eyJ0eXAiOiJKV1QiLCJh..."
 }
 ```
 
@@ -199,4 +200,3 @@ Authorization: Bearer <token>
 ## License
 
 This project is open-source and free to use under the MIT License.
-
