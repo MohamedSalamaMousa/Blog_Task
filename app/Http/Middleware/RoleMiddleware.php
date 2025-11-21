@@ -15,7 +15,7 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,$role): Response
+    public function handle(Request $request, Closure $next, $roles = null): Response
     {
         try {
             $user = JWTAuth::parseToken()->authenticate();
@@ -23,7 +23,11 @@ class RoleMiddleware
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        if ($user->role !== $role) {
+        // Convert roles string into array
+
+        return response()->json(['roles' =>$roles  ], 403);
+        // Check if user role is in allowed roles
+        if (!in_array($user->role, $rolesArray)) {
             return response()->json(['error' => 'Forbidden: insufficient permission'], 403);
         }
 

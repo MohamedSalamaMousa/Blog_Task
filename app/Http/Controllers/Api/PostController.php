@@ -11,30 +11,31 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class PostController extends Controller
 {
 
-     public function index(Request $request)
-     {
-         $query = Post::query()->with('author');
+    public function index(Request $request)
+    {
+        $query = Post::query()->with('author');
 
-         if ($request->category) {
-             $query->where('category', $request->category);
-         }
+        if ($request->category) {
+            $query->where('category', $request->category);
+        }
 
-         if ($request->author_id) {
-             $query->where('author_id', $request->author_id);
-         }
+        if ($request->author_id) {
+            $query->where('author_id', $request->author_id);
+        }
 
-         if ($request->from && $request->to) {
-             $query->whereBetween('created_at', [$request->from, $request->to]);
-         }
+        if ($request->from && $request->to) {
+            $query->whereBetween('created_at', [$request->from, $request->to]);
+        }
 
-         $posts = $query->orderBy('created_at', 'desc')->paginate(10);
+        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
 
-         return response()->json($posts);
-     }
+        return response()->json($posts);
+    }
 
 
     public function store(Request $request)
     {
+        //  return response()->json(['message' => 'Store method called']);
         $user = JWTAuth::parseToken()->authenticate();
 
         $validator = Validator::make($request->all(), [
@@ -76,7 +77,7 @@ class PostController extends Controller
             return response()->json(['error' => 'Post not found'], 404);
         }
 
-            // If user is author but not the owner, forbid
+        // If user is author but not the owner, forbid
         if ($user->role === 'author' && $post->author_id !== $user->id) {
             return response()->json(['error' => 'Forbidden: not your post'], 403);
         }
@@ -90,6 +91,7 @@ class PostController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
+
 
         $post->update($request->all());
 
@@ -105,7 +107,7 @@ class PostController extends Controller
             return response()->json(['error' => 'Post not found'], 404);
         }
 
-          // If user is author but not the owner, forbid
+        // If user is author but not the owner, forbid
         if ($user->role === 'author' && $post->author_id !== $user->id) {
             return response()->json(['error' => 'Forbidden: not your post'], 403);
         }
@@ -115,5 +117,38 @@ class PostController extends Controller
         return response()->json(['message' => 'Post deleted successfully']);
     }
 
+    public function search_filter(Request $request)
+    {
+        $query = Post::query()->with('author');
 
+
+        // 🔍 Search
+        if ($request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%$search%")
+                    ->orWhere('content', 'like', "%$search%")
+                    ->orWhere('category', 'like', "%$search%");
+            });
+        }
+
+        // Filter by category
+        if ($request->category) {
+            $query->where('category', $request->category);
+        }
+
+        // Filter by author
+        if ($request->author_id) {
+            $query->where('author_id', $request->author_id);
+        }
+
+        // Filter by date range
+        if ($request->from && $request->to) {
+            $query->whereBetween('created_at', [$request->from, $request->to]);
+        }
+
+        $posts = $query->orderBy('created_at', 'desc')->paginate(10);
+
+        return response()->json($posts);
+    }
 }
