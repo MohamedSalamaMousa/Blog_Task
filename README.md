@@ -134,6 +134,13 @@ http://127.0.0.1:8000/api
 
 ---
 
+## Live Deployment
+
+تم نشر المشروع بنجاح على استضافة **Hostinger**، ويمكن الوصول إلى النسخة الحية من الـ API من خلال الرابط التالي:
+
+🔗 **Live API URL:**  
+https://blog.qargoquote.com/api
+
 ## Running Tests
 
 You can write and run **feature or unit tests** using PHPUnit:
@@ -145,6 +152,13 @@ php artisan test
 This will execute all tests in `tests/Feature` and `tests/Unit`.
 
 ---
+
+## API Documentation (Postman)
+
+تم إعداد توثيق كامل للـ API على Postman ويمكنك زيارته من الرابط التالي:
+
+🔗 **Postman Docs:**  
+https://documenter.getpostman.com/view/22632135/2sB3WyLxFv
 
 ## API Endpoints
 
